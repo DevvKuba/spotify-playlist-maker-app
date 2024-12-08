@@ -1,8 +1,5 @@
 import os
-from os.path import split
 from pprint import pprint
-from tkinter import Label
-
 import requests
 from bs4 import BeautifulSoup
 import spotipy
@@ -46,12 +43,10 @@ song_titles = [title.getText().strip() for title in titles]
 song_uris=[]
 
 for song in song_titles:
-    # uri_list = spotify.search(q=f"track:{song} year:{year}", type="track")
     uri_list = spotify.search(q=song, type="track", limit=1)
 
-
     try:
-        uri = uri_list["tracks"]["items"][0]["uri"] # dictionaries can be searched through "keys" , lists through integers
+        uri = uri_list["tracks"]["items"][0]["uri"]
         song_uris.append(uri)
     except IndexError:
         print(f"{song} isn't available on spotify :(")
@@ -66,13 +61,4 @@ spotify.user_playlist_add_tracks(user=user_id,
                                  playlist_id=playlist["id"],
                                  tracks=song_uris,
                                  position=None)
-
-
-
-
-# pprint(uri_list)
-
-# print(song_titles)
-
-
 
